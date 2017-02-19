@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <title>PicoPlanner</title>
+    <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= favicon_link_tag('pico_planner.ico') %>
+    <%= favicon_link_tag('clock256.png', rel: 'apple-touch-icon') %>
+  </head>
+  <body>
+    <div class="container">
+      <nav class="navbar navbar-toggleable-md  navbar-light bg-faded">
+        <div class="navbar-header">
+          <%= link_to 'PicoPlanner', :root , class:"navbar-brand"%>
+        </div>
+        <div class="collapse navbar-collapse">
+          <div class="nav navbar-nav">
+            <p class="navbar-text">
+              <% if current_user %>
+                welcome<%= current_user.name %> | <%= link_to "logout", :session, method: :delete, data:{confirm: "Are you shure?"} %>
+              <% else %>
+                <%= link_to "新規登録", new_user_path , class:"navbar-link"%>
+              <% end %>
+            </p>
+          </div>
+        </div>
+      </nav>
+      <main>
+        <%= render 'layouts/flash_messages' %>
+        <%= yield %>
+      </main>
+      <footer>
+        &copy; 2016 Oiax Inc.
+    </footer>
+    </div>
+  </body>
+</html>
