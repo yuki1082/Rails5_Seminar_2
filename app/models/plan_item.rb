@@ -23,6 +23,8 @@ class PlanItem < ApplicationRecord
   end
   
   belongs_to :user 
+  has_many :participations, dependent: :destroy
+  has_many :participants, through: :participations, source: :user
   paginates_per 4
 
   attr_writer :starts_at_date_part, :starts_at_time_part,

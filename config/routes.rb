@@ -4,9 +4,14 @@ Rails.application.routes.draw do
   get 'lessons/register' => 'lessons#register'
   get 'lessons/hello' => 'lessons#hello'
 
-  resources :users
-  resources :plan_items
-
+  resources :users do
+    resources :plan_items, only:[:index]
+  end
+  resources :plan_items do
+    resources :participations, only: [:create] do
+    	patch :cancel, on: :member
+    end
+  end
 
   resource :session, only: [:create, :destroy]
 end

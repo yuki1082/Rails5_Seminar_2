@@ -1,12 +1,16 @@
 class PlanItemsController < ApplicationController
   before_action :login_required
   def index
-    @plan_items = current_user.plan_items.
-      order(:starts_at).page(params[:page])
+    if params[:user_id] && params[:user_id].to_i == current_user.id
+      @plan_items = current_user.participating_events.
+        order(:starts_at).page(params[:page])
+    else
+      @plan_items = PlanItem.order(:starts_at).page(params[:page])
+    end
   end
 
   def show
-    @plan_item = current_user.plan_items.find(params[:id])
+    @plan_item = PlanItem.find(params[:id])
   end
 
   def new
@@ -17,14 +21,15 @@ class PlanItemsController < ApplicationController
   end
 
   def edit
-    @plan_item = current_user.find(params[:id])
+    @plan_item = current_user.plan_items.find(params[:id])
   end
 
   def create
     @plan_item = PlanItem.new(plan_item_params)
     @plan_item.user = current_user
     if @plan_item.save
-      redirect_to :plan_items, notice: '予定を追加しました。'
+    	@plan_item.participants << current_user 
+      redirect_to [current_user, :plan_items], notice: '予定を追加しました。'
     else
       render "new"
     end
@@ -38,7 +43,7 @@ class PlanItemsController < ApplicationController
   end
 
   def destroy
-    plan_item = current_user.entries.find(params[:id])
+    plan_item = current_user.plan_items.find(params[:id])
     plan_item.destroy!
 
     redirect_to :plan_items, notice: '予定を削除しました。'

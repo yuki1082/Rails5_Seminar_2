@@ -3,7 +3,8 @@ class User < ApplicationRecord
   validates :name, uniqueness: {case_senstive: true}
   attr_accessor :password, :password_confirmation
   has_many :plan_items, dependent: :destroy
-  
+  has_many :participations, dependent: :destroy
+  has_many :participating_events, through: :participations, source: :plan_item
   def password=(val)
     if val.present?
       self.hashed_password =BCrypt::Password.create(val)
