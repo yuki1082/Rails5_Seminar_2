@@ -28,7 +28,7 @@ class PlanItemsController < ApplicationController
     @plan_item = PlanItem.new(plan_item_params)
     @plan_item.user = current_user
     if @plan_item.save
-    	@plan_item.participants << current_user 
+      @plan_item.participants << current_user
       redirect_to [current_user, :plan_items], notice: '予定を追加しました。'
     else
       render "new"
@@ -45,15 +45,15 @@ class PlanItemsController < ApplicationController
   def destroy
     plan_item = current_user.plan_items.find(params[:id])
     plan_item.destroy!
-
     redirect_to :plan_items, notice: '予定を削除しました。'
   end
 
-  private def plan_item_params
-  params[:plan_item].permit(
-    :name, :description,
-    :starts_at_date_part, :starts_at_time_part,
-    :ends_at_date_part, :ends_at_time_part
-  )
-end
+  private
+  def plan_item_params
+    params[:plan_item].permit(
+      :name, :description,
+      :starts_at_date_part, :starts_at_time_part,
+      :ends_at_date_part, :ends_at_time_part
+    )
+  end
 end

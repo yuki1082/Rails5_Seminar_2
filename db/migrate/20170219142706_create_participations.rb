@@ -3,6 +3,7 @@ class CreateParticipations < ActiveRecord::Migration[5.0]
     create_table :participations do |t|
     	t.integer :user_id, null: false 
     	t.integer :plan_item_id, null: false
+    	t.boolean :canceled, null: false, default: false
       t.timestamps
     end
 

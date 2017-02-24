@@ -13,10 +13,11 @@
 ActiveRecord::Schema.define(version: 20170219142706) do
 
   create_table "participations", force: :cascade do |t|
-    t.integer  "user_id",      null: false
-    t.integer  "plan_item_id", null: false
-    t.datetime "created_at",   null: false
-    t.datetime "updated_at",   null: false
+    t.integer  "user_id",                      null: false
+    t.integer  "plan_item_id",                 null: false
+    t.boolean  "canceled",     default: false, null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
     t.index ["plan_item_id"], name: "index_participations_on_plan_item_id"
     t.index ["user_id"], name: "index_participations_on_user_id"
   end

@@ -1,13 +1,18 @@
 <% if item.user == current_user %>
   <%= link_to [ :edit, item ], class: 'btn btn-secondary btn-sm' do %>
     <i class='fa fa-pencil-square'></i> 変更
-	<% end %>
-  <%= link_to "#delete-confirmation-#{item.id}",
- 	 class: 'btn btn-secondary btn-sm', data: { toggle: 'modal'} do %>
-    <i class='fa fa-trash'></i> 削除
-	<% end %>
-<% else %>
-  <%= link_to [item, :participations], method: :post,  class: 'btn btn-secondary btn-sm' do %>
-  	<i class="fa fa-pencil-square"></i>申し込む
   <% end %>
+  <%= link_to "#delete-confirmation-#{item.id}", class: 'btn btn-secondary btn-sm', data: { toggle: 'modal'} do %>
+    <i class='fa fa-trash'></i> 削除
+  <% end %>
+<% else %>
+	<% if participation = item.participations.find_by(user_id: current_user.id) %>
+		<%= link_to [item, participation], method: :delete, class: 'btn btn-secondary btn-sm' do %>
+		  	<i class="fa fa-pencil-square"></i>キャンセルする
+		<% end %>
+	<% else %> 
+		<%= link_to [item, :participations], method: :post,  class: 'btn btn-secondary btn-sm' do %>
+  			<i class="fa fa-pencil-square"></i>申し込む
+ 		 <% end %>
+  	<% end %>
 <% end %>

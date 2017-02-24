@@ -8,8 +8,8 @@ Rails.application.routes.draw do
     resources :plan_items, only:[:index]
   end
   resources :plan_items do
-    resources :participations, only: [:create] do
-    	patch :cancel, on: :member
+    resources :participations, only: [:create, :destroy] do
+      patch :cancel, on: :member
     end
   end
 
